@@ -1,0 +1,68 @@
+C017 000  jmp     jmp     start     skip to start
+0004 001  max     dw      4         int max  = 4 
+0000 002  temp    dw      0         int temp = 0
+0000 003  
+0000 004  
+0000 005  
+0000 006  
+0001 007  one     dw      1       
+3000 008  loadit  dw      3000      stores load command 
+0000 009  i       dw      0         int i = 0
+0000 00A  j       dw      0         int j = 0
+003F 00B  index   dw      3F        stores the base adress of array 
+0000 00C  temp2   dw      0         int temp2 = 0
+4000 00D  storeit dw      4000      stores the store command
+0000 00E
+3009 00F          load    i         i += 1
+5007 010          add     1
+4009 011          store   i
+C017 012  jmp                       jumps to beginning of outer for loop
+300A 013          load    j         j -= 1 
+6007 014          sub     1      
+400A 015          store   j 
+C01D 016  jmp                       jumps to beginning of inner for loop
+3001 017          load    max       j = max -1 
+6007 018          sub     1
+400A 019          store   j
+3001 01A  loop    load    max       i < max, if not exit outer loop 
+6009 01B          sub     i         max - i 
+E043 01C  jump    jmp               jumps to end of program 
+300A 01D          load    j         j > i, if not exit inner loop -> outter loop
+6009 01E          sub     i 
+E00F 01F  jump    jmp               jump to increment i and back into outer loop
+D00F 020  jump    jmp               jump to increment i and back into outer loop
+3008 021          load    loadit    loadit += index + j
+500B 022          add     index
+500A 023          add     j
+4025 024          store   loadit 
+0000 025  doit    dw                will load A[j]
+4002 026          store   A[j]      store A[j] to temp
+3008 027          load    loadit    load += index + j -1
+500B 028          add     index
+500A 029          add     j
+6007 02A          sub     one 
+402C 02B          store   loadit
+0000 02C  doit2   dw                will load A[j-1]
+400C 02D          store   A[j-1]    store A[j-1] to temp2
+300C 02E          load    temp2     temp < temp2, if not will go j-- and back in loop
+6002 02F          sub     temp      temp2 - temp
+E03E 030  jump    jmp               jump to decrement j and back into inner loop 
+300D 031  swap    load    storeit   storeit += index + j, (A[j])
+500B 032          add     index
+500A 033          add     j
+4036 034          store   storeit
+300C 035          load    temp2     A[j] = A[j-1]  
+0000 036          store   temp2     storing A[j-1] in A[j]
+300D 037          load    storeit   storeit += index + j -1, (A[j-1])
+500B 038          add     index
+500A 039          add     j
+6007 03A          sub     1
+403D 03B          store   storeit
+3002 03C          load    temp      A[j-1] = A[j]  
+0000 03D          store   temp      storing A[j] in A[j-1]
+C013 03E  jump    jmp               jump to decrement j and neter back into inner loop
+0002 03F  a[0]    dw      2         below is the hard code array 
+0004 040  a[1]    dw      4         after the code is run these numbers should be in
+0007 041  a[2]    dw      7         - a sorted order 
+0003 042  a[3]    dw      3
+0000 043          halt

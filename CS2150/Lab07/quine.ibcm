@@ -1,0 +1,18 @@
+C005 000         jmp     start
+4000 001  storef dw	 4000		store function
+3000 002  loadf	 dw	 3000	     	load function
+0011 003  size	 dw	 	     	size of program
+0001 004  one	 dw	 1		
+3003 005  start  load    size		get size of program
+6069 006  				set counter to location and sub 1
+E011 007	 jmpl	 end		stop when index > size
+3002 008	 load	 loadf		otherwise do function
+5069 009 	 add	 idx		set line of code
+400B 00A	 store	 str		store it
+0000 00B  str	 dw	 0
+1800 00C  print				print
+3069 00D  				i++
+5004 00E
+4069 00F
+C005 010	 jmp	 start
+0000 011  end	 halt

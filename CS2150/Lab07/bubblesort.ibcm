@@ -1,0 +1,109 @@
+C00C 000	jmp	start	skip to start
+6000 001 curr	dw	0
+3000 002 prev	dw	0
+000A 003 size	dw	10	size of the array
+0070 004 a	dw	60	array starting address
+0000 005 i	dw	0	index for outer loop
+0009 006 j	dw	9	index for inner loop 
+0000 007 tmp	dw	0	temporary location
+0000 008 zero	dw	0	a[j]
+0001 009 one	dw	1	a[j-1]
+4000 00A tmpt	dw	0	second temp location
+0000 00B
+1000 00C start	readH		read array elements
+4070 00D	store	a[0]	first
+1000 00E	readH
+4071 00F	store	a[1]	second
+1000 010	readH
+4072 011	store	a[2]	third
+1000 012	readH
+4073 013	store	a[3]	fourth
+1000 014	readH
+4074 015	store	a[4]	fifth
+1000 016	readH
+4075 017	store	a[5]	sixth
+1000 018	readH
+4076 019	store	a[6]	seventh
+1000 01A	readH
+4077 01B	store	a[7]	eight
+1000 01C	readH
+4078 01D	store	a[8]	ninth
+1000 01E	readH	
+4079 01F	store	a[9]	tenth
+3003 020 outer	load	size	if (i >= size) go to cout
+6005 021	sub	i
+E058 022	jmpl	cout
+D058 023	jmpe	cout
+3006 024 inner	load	j	if (j <= i) --> i++ and j = 9
+6005 025	sub	i
+E051 026	jmpl	adjust
+D051 027 	jmpe	adjust
+3001 028	load	curr	 a[j]
+5004 029    	add	a
+5006 02A	add	j
+4032 02B	store	doit
+3002 02C	load	prev 	a[j-1]
+5004 02D	add	a
+5006 02E	add	j
+6009 02F	sub	one
+4031 030	store	itdo
+0000 031 itdo  	dw	0	if (a[j] >= a[j-1]) -->  j--
+0000 032 doit 	dw	0
+E04D 033	jmpl	subj
+D04D 034	jmpe	subj
+3002 035	load	prev 	else swap
+5004 036	add	a
+5006 037	add	j
+4039 038	store	itdo	
+0000 039 itdo   dw	0
+4007 03A    	store	tmp	tmp = a[j]
+3002 03B 	load	prev	a[j] = a[j-1]
+5004 03C	add	a
+5006 03D	add	j
+6009 03E	sub	one
+4044 03F	store	itdo
+300A 040 	load	tmpt
+5004 041	add	a
+5006 042	add	j
+4045 043	store	conf
+0000 044 itdo  	dw	0
+0000 045 conf 	dw	0
+300A 046	load	tmpt	a[j-1] = tmp
+5004 047	add	a
+5006 048	add	j
+6009 049	sub	one
+404C 04A	store	conf
+3007 04B 	load	tmp
+0000 04C conf 	dw	0
+3006 04D subj	load	j	j--;
+6009 04E	sub	one
+4006 04F	store	j
+C024 050	jmp	inner	inner again
+3005 051 adjust	load	i	i++;
+5009 052	add	one
+4005 053	store	i
+3003 054    	load	size	reset j
+6009 055	sub	one
+4006 056	store	j
+C020 057	jmp	outer	go to outer loop
+3070 058 cout	load	a[0]	print all values of array in sorted order
+1800 059 	printH
+3071 05A	load	a[1]
+1800 05B	printH
+3072 05C	load	a[2]
+1800 05D	printH
+3073 05E	load	a[3]
+1800 05F	printH
+3074 060	load	a[4]
+1800 061	printH
+3075 062	load	a[5]
+1800 063	printH
+3076 064	load	a[6]
+1800 065	printH
+3077 066	load	a[7]
+1800 067	printH
+3078 068	load	a[8]
+1800 069	printH
+3079 06A	load	a[9]
+1800 06B	printH
+0000 06C end	halt
